@@ -91,19 +91,12 @@ class PlayGround extends Container {
                 if (line[i] === '[') {
                     const cx = CONST.halfCeilSize * i + CONST.ceilSize
                     const cy = CONST.ceilSize * y + CONST.halfCeilSize
-                    const chars = line[i + 1] + line[i + 2]
+                    //const chars = line[i + 1] + line[i + 2]
+                    const chars = line[i + 1]
                     switch(chars) {
-                        case '01':
-                        case '02':
-                        case '03':
-                        case '04':
-                        case '05':
-                        case '06':
-                        case '07':
-                        case '08':
-                        case '09':
-                        case '10':
-                        case 'xx':
+                        case '0':
+                        case '1':
+                        case '2':
                             this.bricks.addChild( new Brick(cx, cy, chars) )
                             break;
                         case '?@':

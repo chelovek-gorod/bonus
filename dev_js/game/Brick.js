@@ -13,7 +13,7 @@ class Block extends Sprite {
         this.top = this.position.y - CONST.ceilSize
         this.bottom = this.position.y + CONST.ceilSize
 
-        this.hp = +type
+        this.hp = +type + 1
         if (!this.hp) this.hp = Infinity
     }
 
@@ -23,7 +23,7 @@ class Block extends Sprite {
         this.hp -= this.parent.parent.ballPower
         if (this.hp < 1) return this.broke()
 
-        this.texture = sprites.bricks.textures["0" + this.hp]
+        this.texture = sprites.bricks.textures[this.hp - 1]
     }
 
     broke() {

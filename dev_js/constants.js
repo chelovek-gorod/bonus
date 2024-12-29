@@ -3,10 +3,10 @@ export const CONST = {
     halfCeilSize: 32,
     playground: {
         offset: {
-            left: 120,
-            right: 120,
-            top: 120,
-            bottom: 120,
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10,
         },
         shadow: {
             offset: { x: 8, y:12 },

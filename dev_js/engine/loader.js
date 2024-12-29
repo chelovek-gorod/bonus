@@ -27,7 +27,7 @@ export const sprites = {
     dpf_2: 'dp_filter_tile_225x225px.png',
 
     platform: 'platform.json', // ball, p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8, p_9
-    bricks: 'bricks.json', // 00, 01 - 10, fire, bonus
+    bricks: 'newBricks_128x64px.json', // 00, 01 - 10, fire, bonus
     bonuses: 'bonuses.json', // size_add, size_sub, stop, speed_ball, slow_ball, protection, life, bullets, balls, power
     side: 'side.json', // open, close
     bullet: 'bullet_32x32px.png',
