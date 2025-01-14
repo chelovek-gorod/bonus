@@ -42,7 +42,7 @@ export function initFontStyles() {
         }),
         
         label: new TextStyle({
-            fontFamily: fonts.bold,
+            fontFamily: fonts.normal,
             fontSize: 26,
             fill: '#ffff00',
             align: 'center',

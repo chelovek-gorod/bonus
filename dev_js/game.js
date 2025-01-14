@@ -1,8 +1,6 @@
-import { getAppScreen, sceneAdd } from './engine/application'
 import { playMusic } from './engine/sound'
 import Yandex from './Yandex/Yandex'
-import BG from './BG/bg'
-import GameScene from './game/GameScene'
+import GameScene from './GameScene/GameScene'
 
 const lang = navigator.language || navigator.userLanguage
 let isLangRu = !!(~lang.indexOf('ru'))
@@ -15,14 +13,10 @@ export function startGame() {
 
     //const savedState = Yandex ? Yandex.getSave() : null
 
-    const screenData = getAppScreen()
     // const state = new State(savedState, isLangRu)
     // Yandex.startAutoSave( state.getStateDataForSave.bind(state) )
 
-    sceneAdd( new BG(screenData) )
+    new GameScene(isLangRu, 1)
 
-    const scene = new GameScene(screenData)
-    sceneAdd( scene )
-
-    playMusic()
+    //playMusic()
 }

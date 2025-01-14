@@ -1,0 +1,109 @@
+{
+  "frames": {
+    "0": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 280,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 280,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 280,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "1": {
+      "frame": {
+        "x": 283,
+        "y": 1,
+        "w": 280,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 280,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 280,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "2": {
+      "frame": {
+        "x": 565,
+        "y": 1,
+        "w": 280,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 280,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 280,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "3": {
+      "frame": {
+        "x": 847,
+        "y": 1,
+        "w": 280,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 280,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 280,
+        "h": 64
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "image": "level_ui_stars.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1128,
+      "h": 66
+    },
+    "scale": 1
+  }
+}

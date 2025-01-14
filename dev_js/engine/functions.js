@@ -141,6 +141,20 @@ export function smoothHideElement( element, side = null, callback = null ) {
     tickerAdd( element )
 }
 
+export function checkLineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
+    const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1)
+    if (denom === 0) return null // Параллельные линии
+
+    const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom
+    const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom
+
+    if (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1) {
+        // Возвращаем точку пересечения
+        return { x: x1 + ua * (x2 - x1), y: y1 + ua * (y2 - y1) }
+    }
+    return null // Нет пересечения
+}
+
 export function getDistance(sprite, target) {
     let dx = target.position.x - sprite.position.x;
     let dy = target.position.y - sprite.position.y;
@@ -182,6 +196,20 @@ export function turnSpriteToTarget(sprite, target, turnAngle) {
     if (Math.abs(deflection) <= turnAngle) sprite.rotation = pointDirection;
     else sprite.rotation += (deflection <  0) ? -turnAngle : turnAngle;
     return false;
+}
+
+export function getLinesIntersectionPoint(x1, y1, x2, y2, x3, y3, x4, y4) {
+    const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1)
+    if (denom === 0) return null // Параллельные линии
+       
+    const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom
+    const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom
+
+    if (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1) {
+        // Возвращаем точку пересечения
+        return { x: x1 + ua * (x2 - x1), y: y1 + ua * (y2 - y1) }
+    }
+    return null // Нет пересечения
 }
 
 const colors = [

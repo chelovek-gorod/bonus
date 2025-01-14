@@ -23,14 +23,18 @@ export const sprites = {
     bg_11: 'bg_11_828x502px.png',
     bg_12: 'bg_12_540x832px.png',
 
-    dpf_1: 'dp_filter_tile_416x416px.png',
-    dpf_2: 'dp_filter_tile_225x225px.png',
+    ball: 'ball_48x48px.png',
+    bullet: 'bullet_16x16px.png',
 
-    platform: 'platform.json', // ball, p_0, p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8, p_9
-    bricks: 'newBricks_128x64px.json', // 00, 01 - 10, fire, bonus
-    bonuses: 'bonuses.json', // size_add, size_sub, stop, speed_ball, slow_ball, protection, life, bullets, balls, power
+    platforms: 'platforms.json', // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (1 - w:128px; 10 - w:704px)
     side: 'side.json', // open, close
-    bullet: 'bullet_32x32px.png',
+    bricks: 'bricks.json', // 1 - 5, x (infinity), 0 (transparent), t (visible), fire, bonus
+    bonuses_pos: 'bonuses_pos.json', // add_ball, add_platform_size, extra_balls, power, protection, shuts, slow
+    bonuses_neg: 'bonuses_neg.json', // 208x186px acceleration, resize, stop
+    bonus_ui_buttons: 'bonus_ui_buttons.json', // power, protect, add_platform_size, shuts, slow
+    bonus_ui_timer: 'bonus_ui_timer.json', // empty, protect, shuts, stop (stop_red)
+    level_ui_stars: 'level_ui_stars.json', // 0, 1, 2, 3
+    explosion: 'explosion.json',
 }
 const spritesNumber = Object.keys(sprites).length
 for (let sprite in sprites) sprites[sprite] = paths.sprites + sprites[sprite]
@@ -42,10 +46,8 @@ const soundsNumber = Object.keys(sounds).length
 for (let se in sounds) sounds[se] = paths.sounds + sounds[se]
 
 export const voices = {
-    en_start_first: 'voice_en_start_first.mp3',
-
-    ru_start_first: 'voice_ru_start_first.mp3',
-
+    // en_start_first: 'voice_en_start_first.mp3',
+    // ru_start_first: 'voice_ru_start_first.mp3',
 }
 const voicesNumber = Object.keys(voices).length
 for (let vs in voices) voices[vs] = paths.voices + voices[vs]
@@ -56,8 +58,8 @@ export const music = {
 for (let bgm in music) music[bgm] = paths.music + music[bgm]
 
 export const fonts = {
-    bold: 'Play-Bold.ttf',
-    normal: 'Play-Regular.ttf',
+    //bold: 'Play-Bold.ttf',
+    normal: 'Rubik80sFade-Regular.ttf',
 }
 for (let font in fonts) fonts[font] = paths.fonts + fonts[font]
 

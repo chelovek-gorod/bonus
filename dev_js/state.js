@@ -5,8 +5,8 @@ class State {
     constructor(save = null, isLangRu) {
         this.help = new Set( save ? save.help : ['button', 'auto', 'click', 'turbo', 'boost', 'spy'] )
 
-        this.balls = save ? save.balls : CONST.startStat.balls
-        this.score = save ? save.score : CONST.startStat.score
+        this.balls = save ? save.balls : CONST.startState.balls
+        this.score = save ? save.score : CONST.startState.score
     }
 }
 

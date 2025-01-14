@@ -4,7 +4,7 @@ import { screenResize, pointerMove } from './events'
 
 const isOnRightClickScreenshot = false
 
-const isNeedCursorPositionUpdate = true
+const isNeedCursorPositionUpdate = false
 const isCursorHidden = false
 if (isCursorHidden) document.body.style.cursor = 'none'
 
@@ -49,15 +49,12 @@ const appScreen = {}
 function resize() {
     appScreen.width = app.screen.width
     appScreen.height = app.screen.height
-    appScreen.centerX = app.screen.width / 2
-    appScreen.centerY = app.screen.height / 2
-    appScreen.minSize = app.screen.width > app.screen.height ? app.screen.height : app.screen.width
-    appScreen.offsetX = (appScreen.width - appScreen.minSize) / 2
-    appScreen.offsetY = (appScreen.height - appScreen.minSize) / 2
+    appScreen.centerX = app.screen.width * 0.5
+    appScreen.centerY = app.screen.height * 0.5
+    appScreen.isOrientationLandscape = app.screen.width > app.screen.height
 
     screenResize( appScreen )
 }
-
 
 export function getAppScreen() {
     return appScreen
@@ -71,18 +68,31 @@ export function sceneRemove(element) {
     app.stage.removeChild( element )
 }
 
+export function sceneClear() {
+    // need to test this function (forEach ? for destroyed element)
+    app.stage.children.forEach( element => {
+        app.stage.removeChild( element )
+        element.destroy()
+    })
+}
+
 let orientation = window.matchMedia("(orientation: portrait)");
 orientation.addEventListener("change", () => setTimeout(resize, 0))
 window.addEventListener('resize', () => setTimeout(resize, 0))
 
 let isOnFocus = true
-window.addEventListener('focus', playMusic)
-window.addEventListener('blur', stopMusic)
+window.addEventListener('focus', () => focusOnChange(true))
+window.addEventListener('blur', () => focusOnChange(false))
 if ('hidden' in document) document.addEventListener('visibilitychange', visibilityOnChange)
 function visibilityOnChange( isHide ) {
     if (isHide) stopMusic()
     else playMusic()
     isOnFocus = !isHide
+}
+function focusOnChange( isOn ) {
+    if (isOn) playMusic()
+    else stopMusic()
+    isOnFocus = isOn
 }
 
 export function checkFocus() {
