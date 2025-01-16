@@ -16,6 +16,7 @@ class GameScene extends Container {
         
         const loadingText = isLangRu ? 'Загрузка уровня...' : 'Level loading...'
         this.loadingText = new Text({text: loadingText, style: textStyles.level})
+        this.loadingText.anchor.set(0.5)
         this.addChild(this.loadingText)
 
         this.bg = null

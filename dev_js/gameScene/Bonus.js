@@ -1,6 +1,6 @@
 import { Sprite } from "pixi.js"
 import { sprites } from "../engine/loader"
-import { BONUS } from "../constants"
+import { BONUS, BONUS_RADIUS } from "../constants"
 import { tickerAdd, tickerRemove } from "../engine/application"
 
 class Bonus extends Sprite {
@@ -52,12 +52,12 @@ class Bonus extends Sprite {
             }
         }
 
-        if (this.position.y > this.platform.bottom) return this.kill()
+        if (this.position.y - BONUS_RADIUS > this.platform.y) return this.kill()
 
-        if (this.position.x > this.platform.left - BONUS.platformOffset 
-        && this.position.x < this.platform.right + BONUS.platformOffset
-        && this.position.y > this.platform.top - BONUS.platformOffset
-        && this.position.y < this.platform.bottom + BONUS.platformOffset) {
+        if (this.position.x > this.platform.bonusLeft
+        && this.position.x < this.platform.bonusRight
+        && this.position.y > this.platform.bonusTop) {
+            /*
             switch (this.type) {
                 // positive
                 case "add_ball" : this.parent.parent.addBall(1); break;
@@ -73,6 +73,10 @@ class Bonus extends Sprite {
                 case "acceleration" : this.parent.parent.balls.children.forEach(b => b.accelerate()); break;
                 // default : this.parent.sidePoints.children.forEach( p => p.protect() ); break;
             }
+            */
+            // test
+            this.platform.resize( true )
+
             this.isCollected = true
             this.scale.x = 1
         }

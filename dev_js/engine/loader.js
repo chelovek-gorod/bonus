@@ -34,6 +34,9 @@ export const sprites = {
     bonus_ui_buttons: 'bonus_ui_buttons.json', // power, protect, add_platform_size, shuts, slow
     bonus_ui_timer: 'bonus_ui_timer.json', // empty, protect, shuts, stop (stop_red)
     level_ui_stars: 'level_ui_stars.json', // 0, 1, 2, 3
+    menu_button: 'menu.png', // 104x90px
+    bonus_shadow: 'bonus_shadow.png', // 192x192px
+
     explosion: 'explosion.json',
 }
 const spritesNumber = Object.keys(sprites).length
@@ -59,7 +62,8 @@ for (let bgm in music) music[bgm] = paths.music + music[bgm]
 
 export const fonts = {
     //bold: 'Play-Bold.ttf',
-    normal: 'Rubik80sFade-Regular.ttf',
+    // normal: 'Rubik80sFade-Regular.ttf',
+    normal: 'Play-Regular.ttf',
 }
 for (let font in fonts) fonts[font] = paths.fonts + fonts[font]
 

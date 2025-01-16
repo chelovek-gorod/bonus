@@ -26,7 +26,14 @@ class GameInterface extends Container {
             this.boost_slow, this.boost_power, this.boost_size,
             this.boost_guns, this.boost_protect, this.boost_timer
         )
-        
+
+        this.info = new Container()
+        this.addChild(this.info)
+
+        this.info_level = new Text({text: isLangRu ? 'УРОВЕНЬ ' : 'LEVEL ' + levelNumber})
+        this.info.addChild(this.info_level)
+        this.info_score = new Text({text: 1000})
+        this.info.addChild(this.info_level)
         // EventHub.on( events.screenResize, this.screenResize, this)
     }
 

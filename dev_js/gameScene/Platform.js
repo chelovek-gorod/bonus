@@ -1,6 +1,6 @@
 import { Sprite } from "pixi.js"
 import { sprites } from "../engine/loader"
-import { CEIL_HALF_SIZE, BALL_RADIUS } from "../constants"
+import { CEIL_HALF_SIZE, BALL_RADIUS, BONUS_RADIUS } from "../constants"
 
 class Platform extends Sprite {
     constructor(y, size, areaWidth) {
@@ -12,15 +12,9 @@ class Platform extends Sprite {
         this.anchor.set(0.5)
         this.position.set(areaWidth * 0.5, y)
 
-        this.halfWidth = size * CEIL_HALF_SIZE
-        this.halfBoundsWidth = this.halfWidth + BALL_RADIUS
-
         this.top = this.position.y - CEIL_HALF_SIZE - BALL_RADIUS
-        this.bottom = this.position.y + BALL_RADIUS
-        
+        this.bonusTop = this.position.y - CEIL_HALF_SIZE - BONUS_RADIUS
         this.updateBounds()
-
-        this.maxX = this.areaWidth - this.halfWidth
 
         this.isActive = false
 
@@ -33,13 +27,7 @@ class Platform extends Sprite {
         if (!isAdd && this.size === 2) return
 
         this.size += isAdd ? 1 : -1
-
-        this.halfWidth = this.size * CEIL_HALF_SIZE
-        this.halfBoundsWidth = this.halfWidth + BALL_RADIUS
-
         this.updateBounds()
-
-        this.maxX = this.areaWidth - this.halfWidth
 
         if (this.position.x < this.halfWidth) this.position.x = this.halfWidth
         else if (this.position.x > this.maxX) this.position.x = this.maxX
@@ -48,8 +36,13 @@ class Platform extends Sprite {
     }
 
     updateBounds() {
+        this.halfWidth = this.size * CEIL_HALF_SIZE
+        this.maxX = this.areaWidth - this.halfWidth
+
         this.left = this.position.x - this.halfWidth - BALL_RADIUS
         this.right = this.position.x + this.halfWidth + BALL_RADIUS
+        this.bonusLeft = this.position.x - this.halfWidth - BONUS_RADIUS
+        this.bonusRight = this.position.x + this.halfWidth + BONUS_RADIUS 
     }
 
     move(data) {

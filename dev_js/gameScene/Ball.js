@@ -106,8 +106,24 @@ class Ball extends Sprite {
                 this.platform.left, this.platform.top, this.platform.right, this.platform.top
             )
             if (intersectPoint) {
-                this.setCollideData(intersectPoint, 0, -1, -2 /* brickIndex = -2 -> it is platform */)
+                this.setCollideData(intersectPoint, 0, -1, -2 /* brickIndex = -2 -> platform top */)
                 this.platformOffset = this.position.x - this.platform.position.x
+            } else {
+                if (this.dx > 0) {
+                    intersectPoint = getLinesIntersectionPoint(
+                        this.x, this.y, destinationX, destinationY,
+                        this.platform.left, this.platform.top,
+                        this.platform.left, this.platform.y
+                    )
+                    if (intersectPoint) this.setCollideData(intersectPoint, -1, 0, -3 /* platform l */)
+                } else {
+                    intersectPoint = getLinesIntersectionPoint(
+                        this.x, this.y, destinationX, destinationY,
+                        this.platform.right, this.platform.top,
+                        this.platform.right, this.platform.y
+                    )
+                    if (intersectPoint) this.setCollideData(intersectPoint, 1, 0, -4 /* platform r */)
+                }
             }
         }
 
@@ -172,11 +188,18 @@ class Ball extends Sprite {
             this.x = this.collideX + this.collideOffsetX
             this.y = this.collideY + this.collideOffsetY
 
+            // PLATFORM
             if (this.collideBrickIndex === -2) {
-                // collide with platform
-                const offsetRate = (this.platformOffset / this.platform.halfWidth) * 0.5
+                // collide with platform top
+                const offsetRate = (this.platformOffset / this.platform.halfWidth) * 0.25
                 this.dx += offsetRate
                 this.dy = -Math.sqrt( Math.abs(1 - this.dx * this.dx) )
+                return
+            }
+            if (this.collideBrickIndex < -2) {
+                // collide with platform left or right
+                this.dx *= -1
+                this.dy *= -1
                 return
             }
 

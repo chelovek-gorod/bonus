@@ -11,7 +11,6 @@ export const BALL = {
     startPower: 1,
 }
 export const BONUS = {
-    platformOffset: BONUS_RADIUS - BALL_RADIUS,
     acc: 0.02,
     speed: -0.5,
     scaleRate: 0.002,
