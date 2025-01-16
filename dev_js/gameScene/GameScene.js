@@ -86,7 +86,8 @@ class GameScene extends Container {
             const controlHeight = screenData.height - areaPointY - OFFSETS.screen
             this.control.clear()
             this.control.rect(areaPointX, areaPointY, areaScaledWidth, controlHeight)
-            this.control.fill({color: 0x00ff00})
+            this.control.fill({color: 0x000000})
+            this.control.stroke({width: 4, color: 0x00ff00})
 
             // UI
             this.ui.boost.scale.set(scale)

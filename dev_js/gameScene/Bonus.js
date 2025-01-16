@@ -57,7 +57,6 @@ class Bonus extends Sprite {
         if (this.position.x > this.platform.bonusLeft
         && this.position.x < this.platform.bonusRight
         && this.position.y > this.platform.bonusTop) {
-            /*
             switch (this.type) {
                 // positive
                 case "add_ball" : this.parent.parent.addBall(1); break;
@@ -73,9 +72,6 @@ class Bonus extends Sprite {
                 case "acceleration" : this.parent.parent.balls.children.forEach(b => b.accelerate()); break;
                 // default : this.parent.sidePoints.children.forEach( p => p.protect() ); break;
             }
-            */
-            // test
-            this.platform.resize( true )
 
             this.isCollected = true
             this.scale.x = 1

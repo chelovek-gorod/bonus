@@ -17,7 +17,7 @@ export const BONUS = {
 }
 export const OFFSETS = {
     screen: 10,
-    mobControl: 96,
+    mobControl: 64,
     boostButton: 32,
     boostButtonSize: 192,
     boostButtonOffset: 192 + 32,
