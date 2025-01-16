@@ -51,7 +51,7 @@ function resize() {
     appScreen.height = app.screen.height
     appScreen.centerX = app.screen.width * 0.5
     appScreen.centerY = app.screen.height * 0.5
-    appScreen.isOrientationLandscape = app.screen.width > app.screen.height
+    appScreen.isLandscape = app.screen.width > app.screen.height
 
     screenResize( appScreen )
 }

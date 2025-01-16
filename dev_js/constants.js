@@ -16,13 +16,14 @@ export const BONUS = {
     speed: -0.5,
     scaleRate: 0.002,
 }
+export const OFFSETS = {
+    screen: 10,
+    mobControl: 96,
+    boostButton: 32,
+    boostButtonSize: 192,
+    boostButtonOffset: 192 + 32,
+}
 export const GAME_AREA = {
-    offset: {
-        left: 10,
-        right: 10,
-        top: 50,
-        bottom: 10,
-    },
     shadow: {
         offset: { x: 8, y:12 },
         color: 0x00ffff,

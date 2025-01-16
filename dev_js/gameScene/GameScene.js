@@ -1,8 +1,8 @@
-import { Container, Text, Assets } from "pixi.js"
+import { Container, Text, Assets, Graphics } from "pixi.js"
 import { textStyles } from '../engine/fonts'
 import { getAppScreen, sceneAdd } from '../engine/application'
 import { EventHub, events } from '../engine/events'
-import { CEIL_SIZE, CEIL_HALF_SIZE, GAME_AREA, BALL_RADIUS, BALL } from "../constants"
+import { CEIL_SIZE, CEIL_HALF_SIZE, GAME_AREA, OFFSETS } from "../constants"
 import GameInterface from "./GameInterface"
 import GameArea from "./GameArea"
 import Background from "./Background"
@@ -22,6 +22,10 @@ class GameScene extends Container {
         this.area = null
         this.ui = null
 
+        this.control = new Graphics()
+        this.control.eventMode = 'static'
+        this.control.on('pointermove', (e) => this.area.platform.move(e) )
+
         Assets.load(`./levels/level_${levelNumber}.json`).then( this.setup.bind(this) )
         EventHub.on( events.screenResize, this.screenResize, this)
 
@@ -30,7 +34,6 @@ class GameScene extends Container {
     }
 
     screenResize(screenData) {
-
         if (this.loadingText) {
             this.screenData = screenData
 
@@ -40,31 +43,56 @@ class GameScene extends Container {
             return
         }
 
-        const offsetH = (GAME_AREA.offset.left + GAME_AREA.offset.right)
-        const offsetV = (GAME_AREA.offset.top + GAME_AREA.offset.bottom)
-        const areaWidth = screenData.width - offsetH
-        const areaHeight = screenData.height - offsetV
-        const scaleX = areaWidth / this.areaWidth
-        const scaleY = areaHeight / this.areaHeight
-        let scale = scaleX > scaleY ? scaleY : scaleX
-        if (scale > 1) scale = 1
+        this.ui.setOrientation(screenData.isLandscape)
 
-        this.bg.backgroundMask.scale.set(scale)
-        this.bg.background.width = this.areaWidth * scale
-        this.bg.background.height = this.areaHeight * scale
-        this.area.scale.set(scale)
+        if (screenData.isLandscape) { true }
+        if (true) {
+            // if screenData.isLandscape = false
 
-        const areaPointX = (screenData.width - this.areaWidth * scale) * 0.5
-        const areaPointY = (screenData.height - this.areaHeight * scale) * 0.5
+            const offsetV = OFFSETS.boostButton + OFFSETS.boostButtonSize
 
-        this.bg.position.set(areaPointX, areaPointY)
-        this.area.position.set(areaPointX, areaPointY)
+            const availableWidth = screenData.width - OFFSETS.screen * 2
+            const availableHeight = screenData.height - OFFSETS.screen * 2 - OFFSETS.mobControl
+            const scaleX = availableWidth / this.areaWidth
+            const scaleY = availableHeight / (this.areaHeight + offsetV) 
+            let scale = scaleX > scaleY ? scaleY : scaleX
+            if (scale > 1) scale = 1
 
-        this.area.platform.moveScale = scale
-        this.area.platform.moveOffset = areaPointX
-        
-        this.area.dropShadowFilter.offset.x = GAME_AREA.shadow.offset.x * scale
-        this.area.dropShadowFilter.offset.y = GAME_AREA.shadow.offset.y * scale
+            const areaScaledWidth = this.areaWidth * scale
+            const areaScaledHeight = this.areaHeight * scale
+            const offsetScaledV = offsetV * scale
+    
+            this.bg.backgroundMask.scale.set(scale)
+            this.bg.background.width = this.areaWidth
+            this.bg.background.height = this.areaHeight
+
+            this.area.scale.set(scale)
+    
+            const areaPointX = (screenData.width - areaScaledWidth) * 0.5
+            const freeV = (screenData.height - areaScaledHeight - offsetScaledV - OFFSETS.mobControl)
+            const areaPointY = freeV * 0.5 + offsetScaledV  
+    
+            this.bg.position.set(areaPointX, areaPointY)
+            this.area.position.set(areaPointX, areaPointY)
+    
+            this.area.platform.moveScale = scale
+            this.area.platform.moveOffset = areaPointX
+            
+            this.area.dropShadowFilter.offset.x = GAME_AREA.shadow.offset.x * scale
+            this.area.dropShadowFilter.offset.y = GAME_AREA.shadow.offset.y * scale
+
+            // control
+            const controlHeight = screenData.height - areaPointY - OFFSETS.screen
+            this.control.clear()
+            this.control.rect(areaPointX, areaPointY, areaScaledWidth, controlHeight)
+            this.control.fill({color: 0x00ff00})
+
+            // UI
+            this.ui.boost.scale.set(scale)
+            this.ui.boost.position.set(areaPointX, areaPointY - offsetScaledV)
+        } else {
+            false
+        }
     }
 
     setup(data) {
@@ -76,11 +104,11 @@ class GameScene extends Container {
 
         this.bg = new Background(data.backgroundIndex, this.areaWidth, this.areaHeight)
         this.area = new GameArea(data.map, this.areaWidth, this.areaHeight)
-        this.ui = new GameInterface(this.isLangRu, this.levelNumber, this.screenData)
+        this.ui = new GameInterface(this.isLangRu, this.levelNumber)
         
         this.screenResize(this.screenData)
 
-        this.addChild(this.bg, this.area, this.ui)
+        this.addChild(this.control, this.bg, this.area, this.ui)
     }
 }
 

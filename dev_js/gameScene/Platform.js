@@ -14,6 +14,10 @@ class Platform extends Sprite {
 
         this.halfWidth = size * CEIL_HALF_SIZE
         this.halfBoundsWidth = this.halfWidth + BALL_RADIUS
+
+        this.top = this.position.y - CEIL_HALF_SIZE - BALL_RADIUS
+        this.bottom = this.position.y + BALL_RADIUS
+        
         this.updateBounds()
 
         this.maxX = this.areaWidth - this.halfWidth
@@ -32,6 +36,7 @@ class Platform extends Sprite {
 
         this.halfWidth = this.size * CEIL_HALF_SIZE
         this.halfBoundsWidth = this.halfWidth + BALL_RADIUS
+
         this.updateBounds()
 
         this.maxX = this.areaWidth - this.halfWidth
@@ -45,8 +50,6 @@ class Platform extends Sprite {
     updateBounds() {
         this.left = this.position.x - this.halfWidth - BALL_RADIUS
         this.right = this.position.x + this.halfWidth + BALL_RADIUS
-        this.top = this.position.y - BALL_RADIUS
-        this.bottom = this.position.y + BALL_RADIUS
     }
 
     move(data) {

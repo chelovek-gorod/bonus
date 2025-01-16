@@ -19,16 +19,12 @@ class Background extends Container {
         
         this.addChild( this.background, this.backgroundMask )
 
-        this.background.eventMode = 'static'
-        this.background.on('pointermove', (e) => this.parent.area.platform.move(e) )
-
         tickerAdd(this)
     }
     
     tick(time) {
         this.background.tilePosition.y += time.elapsedMS * GAME_AREA.backgroundSpeed
     }
-
 }
 
 export default Background
