@@ -14,12 +14,23 @@ class Background extends Container {
         this.background = new TilingSprite(sprites[`bg_${backgroundIndex}`])
         this.background.width = width
         this.background.height = height
+        this.background.tilePosition.set(width * 0.5, height * 0.5)
         this.background.mask = this.backgroundMask
-        this.background.alpha = 0.5
+        // this.background.alpha = 0.5
         
         this.addChild( this.background, this.backgroundMask )
 
-        tickerAdd(this)
+        this.bgIndex = 0
+        setTimeout( () => this.nextBG(), 4000 )
+
+        // tickerAdd(this)
+    }
+
+    nextBG() {
+        this.bgIndex++
+        if (this.bgIndex > 21) this.bgIndex = 0
+        this.background.texture = sprites['bg_'+this.bgIndex]
+        setTimeout( () => this.nextBG(), 4000 )
     }
     
     tick(time) {

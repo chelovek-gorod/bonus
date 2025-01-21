@@ -20,7 +20,7 @@ export const OFFSETS = {
     mobControl: 64,
     boostButton: 32,
     boostButtonSize: 192,
-    boostButtonOffset: 192 + 32,
+    mbInfoSize: 112,
 }
 export const GAME_AREA = {
     shadow: {
@@ -29,12 +29,12 @@ export const GAME_AREA = {
         alpha: 0.25,
     },
     border: {
-        width: 6,
-        offset: 6,
+        width: 8,
+        offset: 8,
         color: 0xff00ff,
     },
     borderRadius: 32,
-    backgroundSpeed: 0.025
+    backgroundSpeed: 0.005
 }
 export const PROTECTOR = {
     width: 12,
@@ -44,7 +44,17 @@ export const PROTECTOR = {
 export const START_STATE = {
     balls: 3,
     score: 0,
+    coins: 3,
+    levelsList: [0], // [0,3,1] - level 1 - 3 stars; level 2 - 1 star level available - 3 (levelsList.length)
+    // [0] - first study level - 0 - not passed, 1 - passed
+
+    // boosters
+    slow: 1,
+    power: 1,
+    size: 1,
+    guns: 1,
+    protect: 1,
 }
 export const BONUS_TIMEOUT = 12000 // 12 sec
-export const BULLET_SPEED = 1
+export const BULLET_SPEED = 2 // MAX 3 !!! 16ms per frame -> 3*16 = ~48px
 export const SHUT_TIMEOUT = 500 // 0.5 sec

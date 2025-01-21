@@ -10,18 +10,28 @@ const paths = {
 }
 
 export const sprites = {
-    bg_1: 'bg_1_1040x720px.png',
-    bg_2: 'bg_2_960x720px.png',
-    bg_3: 'bg_3_948x594px.png',
-    bg_4: 'bg_4_948x594px.png',
-    bg_5: 'bg_5_126x166px.png',
-    bg_6: 'bg_6_408x588px.png',
-    bg_7: 'bg_7_470x120px.png',
-    bg_8: 'bg_8_586x586px.png',
-    bg_9: 'bg_9_692x543px.png',
-    bg_10: 'bg_10_626x400px.png',
-    bg_11: 'bg_11_828x502px.png',
-    bg_12: 'bg_12_540x832px.png',
+    bg_0: 'bg_0.png',
+    bg_1: 'bg_1.png',
+    bg_2: 'bg_2.png',
+    bg_3: 'bg_3.png',
+    bg_4: 'bg_4.png',
+    bg_5: 'bg_5.png',
+    bg_6: 'bg_6.png',
+    bg_7: 'bg_7.png',
+    bg_8: 'bg_8.png',
+    bg_9: 'bg_9.png',
+    bg_10: 'bg_10.png',
+    bg_11: 'bg_11.png',
+    bg_12: 'bg_12.png',
+    bg_13: 'bg_13.png',
+    bg_14: 'bg_14.png',
+    bg_15: 'bg_15.png',
+    bg_16: 'bg_16.png',
+    bg_17: 'bg_17.png',
+    bg_18: 'bg_18.png',
+    bg_19: 'bg_19.png',
+    bg_20: 'bg_20.png',
+    bg_21: 'bg_21.png',
 
     ball: 'ball_48x48px.png',
     bullet: 'bullet_16x16px.png',
@@ -33,9 +43,12 @@ export const sprites = {
     bonuses_neg: 'bonuses_neg.json', // 208x186px acceleration, resize, stop
     bonus_ui_buttons: 'bonus_ui_buttons.json', // power, protect, add_platform_size, shuts, slow
     bonus_ui_timer: 'bonus_ui_timer.json', // empty, protect, shuts, stop (stop_red)
-    level_ui_stars: 'level_ui_stars.json', // 0, 1, 2, 3
+    level_ui_stars: 'level_ui_stars.json', // 1, 2, 3
     menu_button: 'menu.png', // 104x90px
     bonus_shadow: 'bonus_shadow.png', // 192x192px
+    coin: 'gold_coin_64x64px.png',
+    power: 'power_64x56px.png',
+    ball_icon: 'ball_icon_64x64px.png',
 
     explosion: 'explosion.json',
 }
@@ -63,7 +76,8 @@ for (let bgm in music) music[bgm] = paths.music + music[bgm]
 export const fonts = {
     //bold: 'Play-Bold.ttf',
     // normal: 'Rubik80sFade-Regular.ttf',
-    normal: 'Play-Regular.ttf',
+    // normal: 'Onest-Regular.ttf', // NORM
+    normal: 'NotoSansMono-Black.ttf', // NORM
 }
 for (let font in fonts) fonts[font] = paths.fonts + fonts[font]
 

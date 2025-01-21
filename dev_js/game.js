@@ -13,7 +13,7 @@ export function startGame() {
 
     //const savedState = Yandex ? Yandex.getSave() : null
 
-    // const state = new State(savedState, isLangRu)
+    // const state = getState(/* savedState */)
     // Yandex.startAutoSave( state.getStateDataForSave.bind(state) )
 
     new GameScene(isLangRu, 1)

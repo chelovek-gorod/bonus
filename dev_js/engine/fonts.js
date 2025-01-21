@@ -10,8 +10,8 @@ export function initFontStyles() {
     textStyles = {
         loading: new TextStyle({
             fontFamily: fonts.normal,
-            fontSize: 80,
-            fill: '#00ff00',
+            fontSize: 72,
+            fill: '#0000ff',
         
             dropShadow: true,
             dropShadowColor: '#777777',
@@ -20,31 +20,62 @@ export function initFontStyles() {
             dropShadowDistance: 0,
         }),
 
-        level: new TextStyle({
+        levelLoading: new TextStyle({
             fontFamily: fonts.normal,
-            fontSize: 32,
-            fill: '#ffff00',
+            fontSize: 36,
+            fill: '#ff00ff',
             align: 'center',
         }),
         
-        score: new TextStyle({
+        gameLevel: new TextStyle({
             fontFamily: fonts.normal,
-            fontSize: 38,
+            fontSize: 64,
+            fill: '#ffffff',
+            align: 'left',
+        }),
+        gameScore: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 64,
             fill: '#00ff00',
+            align: 'center',
+        }),
+        gameBalls: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 64,
+            fill: '#0000ff',
+            align: 'right',
+        }),
+
+        starsTimer: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 48,
+            fill: '#ff0000',
+            align: 'left',
+        }),
+        gameCoins: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 48,
+            fill: '#ffff00',
+            align: 'left',
+        }),
+        ballPowers: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 48,
+            fill: '#ffffff',
+            align: 'right',
+        }),
+        
+        boostCounter: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 40,
+            fill: '#ffff00',
             align: 'center',
         }),
 
-        infoBonus: new TextStyle({
+        boostTimer: new TextStyle({
             fontFamily: fonts.normal,
-            fontSize: 24,
-            fill: '#00ff00',
-            align: 'center',
-        }),
-        
-        label: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 26,
-            fill: '#ffff00',
+            fontSize: 40,
+            fill: '#ffffff',
             align: 'center',
         }),
 

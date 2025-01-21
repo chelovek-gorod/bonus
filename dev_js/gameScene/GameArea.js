@@ -1,13 +1,13 @@
 import { Container, Graphics } from "pixi.js"
 import { DropShadowFilter } from 'pixi-filters'
-import Brick from "./Brick"
-import AnimatedBrick from "./AnimatedBrick"
-import Platform from "./Platform"
-import Ball from "./Ball"
-import SidePoint from "./SidePoint"
+import Brick from "./gameObjects/Brick"
+import AnimatedBrick from "./gameObjects/AnimatedBrick"
+import Platform from "./gameObjects/Platform"
+import Ball from "./gameObjects/Ball"
+import SidePoint from "./gameObjects/SidePoint"
 import { CEIL_SIZE, CEIL_HALF_SIZE, GAME_AREA, BALL_RADIUS, BALL } from "../constants"
-import Protect from "./Protect"
-import Guns from "./Guns"
+import Protect from "./gameObjects/Protect"
+import Guns from "./gameObjects/Guns"
 
 class GameArea extends Container {
     constructor(map, width, height) {
@@ -42,6 +42,8 @@ class GameArea extends Container {
         this.right = width - BALL_RADIUS
         this.bottom = height - BALL_RADIUS
 
+        this.starsTimeoutList = [0, 0]
+
         map.forEach( (line, y) => {
             for(let i = 0; i < line.length; i++) {
 
@@ -51,8 +53,12 @@ class GameArea extends Container {
                     const char = line[i + 1]
                     if (char === '?' || char === '!') {
                         this.bricks.addChild( new AnimatedBrick(cx, cy, char) )
+                        this.starsTimeoutList[1] -= 5
                     } else {
                         this.bricks.addChild( new Brick(cx, cy, char) )
+                        if (char === 'x') this.starsTimeoutList[1] += 5
+                        else if (char === '0') this.starsTimeoutList[1] += 2
+                        else this.starsTimeoutList[1] += +char
                     }
                 }
 
@@ -75,9 +81,14 @@ class GameArea extends Container {
         this.protect = new Protect(this.sidePoints.children[0].position, this.sidePoints.children[1].position)
 
         this.addChild(
-            this.border, this.sidePoints, this.protect,
-            this.bricks, this.platform, this.balls, this.bonuses
+            this.sidePoints, this.protect, this.bricks,
+            this.platform, this.balls, this.bonuses, this.border
         )
+
+        if (this.starsTimeoutList[1] < this.bricks.children.length) {
+            this.starsTimeoutList[1] = this.bricks.children.length
+        }
+        this.starsTimeoutList[0] = Math.round(this.starsTimeoutList[1] * 0.5)
 
         this.platform.isActive = true
         setTimeout( () => this.addBall(), 3 )
