@@ -1,8 +1,9 @@
 import { AnimatedSprite } from "pixi.js"
 import { sprites } from "../../engine/loader"
-import { CEIL_SIZE, CEIL_HALF_SIZE, BALL_RADIUS } from "../../constants"
+import { CEIL_SIZE, CEIL_HALF_SIZE, BALL_RADIUS, BOOSTS } from "../../constants"
 import Bonus from "./Bonus"
 import Explosion from "./Explosion"
+import { addScore } from "../../engine/events"
 
 class AnimatedBrick extends AnimatedSprite {
     constructor(x, y, type) {
@@ -31,7 +32,8 @@ class AnimatedBrick extends AnimatedSprite {
     getHit() {
         if (this.type === '?') {
             const types = [
-                "add_ball", "add_platform_size", "extra_balls", "power", "protection", "shuts", "slow"
+                BOOSTS.ball, BOOSTS.power, BOOSTS.protect, BOOSTS.shoot,
+                BOOSTS.slow, BOOSTS.triple, BOOSTS.widens
             ]
             const type = types[ Math.floor( Math.random() * types.length ) ]
             this.parent.parent.bonuses.addChild(
@@ -39,14 +41,13 @@ class AnimatedBrick extends AnimatedSprite {
             )
         } else {
             this.parent.parent.addChild( new Explosion(this.position.x, this.position.y) )
-            const types = [
-                "acceleration", "resize", "stop"
-            ]
+            const types = [ BOOSTS.acceleration, BOOSTS.shrink, BOOSTS.stop ]
             const type = types[ Math.floor( Math.random() * types.length ) ]
             this.parent.parent.bonuses.addChild(
                 new Bonus(this.position.x, this.position.y, type, this.parent.parent.platform)
             )
         }
+        addScore(5)
         this.parent.removeChild(this)
         this.destroy()
     }

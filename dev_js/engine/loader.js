@@ -39,13 +39,13 @@ export const sprites = {
     platforms: 'platforms.json', // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (1 - w:128px; 10 - w:704px)
     side: 'side.json', // open, close
     bricks: 'bricks.json', // 1 - 5, x (infinity), 0 (transparent), t (visible), fire, bonus
-    bonuses_pos: 'bonuses_pos.json', // add_ball, add_platform_size, extra_balls, power, protection, shuts, slow
-    bonuses_neg: 'bonuses_neg.json', // 208x186px acceleration, resize, stop
-    bonus_ui_buttons: 'bonus_ui_buttons.json', // power, protect, add_platform_size, shuts, slow
-    bonus_ui_timer: 'bonus_ui_timer.json', // empty, protect, shuts, stop (stop_red)
+    boost_pos: 'boost_pos.json', // ball, widens, triple, power, protect, shoot, slow
+    boost_neg: 'boost_neg.json', // 208x186px acceleration, shrink, stop
+    boost_ui_buttons: 'boost_ui_buttons.json',
+    boost_shadow: 'boost_shadow.png', // 192x192px
+    boost_ui_timer: 'boost_ui_timer.json', // empty ... (stop_red)
     level_ui_stars: 'level_ui_stars.json', // 1, 2, 3
     menu_button: 'menu.png', // 104x90px
-    bonus_shadow: 'bonus_shadow.png', // 192x192px
     coin: 'gold_coin_64x64px.png',
     power: 'power_64x56px.png',
     ball_icon: 'ball_icon_64x64px.png',
@@ -74,10 +74,9 @@ export const music = {
 for (let bgm in music) music[bgm] = paths.music + music[bgm]
 
 export const fonts = {
-    //bold: 'Play-Bold.ttf',
-    // normal: 'Rubik80sFade-Regular.ttf',
-    // normal: 'Onest-Regular.ttf', // NORM
-    normal: 'NotoSansMono-Black.ttf', // NORM
+    normal: 'Onest-Regular.ttf',
+    medium: 'Onest-Medium.ttf',
+    bold: 'Onest-SemiBold.ttf',
 }
 for (let font in fonts) fonts[font] = paths.fonts + fonts[font]
 

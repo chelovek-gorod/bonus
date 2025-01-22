@@ -1,6 +1,7 @@
 import { Sprite } from "pixi.js"
 import { sprites } from "../../engine/loader"
 import { CEIL_SIZE, CEIL_HALF_SIZE, BALL_RADIUS } from "../../constants"
+import { addScore } from "../../engine/events"
 
 class Brick extends Sprite {
     constructor(x, y, type) {
@@ -26,6 +27,8 @@ class Brick extends Sprite {
 
     getHit(power = null) {
         if (!isFinite(this.hp)) return
+
+        addScore(5)
 
         if (!this.isVisible) {
             this.isVisible = true

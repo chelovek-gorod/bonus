@@ -6,10 +6,12 @@ export const events = {
     screenResize: 'screenResize',
     pointerMove: 'pointerMove',
 
-    getBoostButtonClick: 'getBoostButtonClick',
-    collectBoost: 'collectBoost',
-    collectBall: 'collectBall',
-    collectExtraBalls: 'collectExtraBalls',
+    useBoost: 'useBoost',
+    addScore: 'addScore',
+
+    turnOffStopBoost: 'turnOffStopBoost',
+    turnOffProtectBoost: 'turnOffProtectBoost',
+    turnOffShootBoost: 'turnOffShootBoost',
 }
 
 export function screenResize( data ) {
@@ -19,17 +21,21 @@ export function pointerMove( data ) {
     EventHub.emit( events.pointerMove, data )
 }
 
-export function getBoostButtonClick( type ) {
-    EventHub.emit( events.getBoostButtonClick, type )
+export function useBoost( type ) {
+    EventHub.emit( events.useBoost, type )
 }
-export function collectBoost( type ) {
-    EventHub.emit( events.collectBoost, type )
+export function addScore(score) {
+    EventHub.emit( events.addScore, score )
 }
-export function collectBall() {
-    EventHub.emit( events.collectBall )
+
+export function turnOffStopBoost() {
+    EventHub.emit( events.turnOffStopBoost )
 }
-export function collectExtraBalls() {
-    EventHub.emit( events.collectExtraBalls )
+export function turnOffProtectBoost() {
+    EventHub.emit( events.turnOffProtectBoost )
+}
+export function turnOffShootBoost() {
+    EventHub.emit( events.turnOffShootBoost )
 }
 
 /*

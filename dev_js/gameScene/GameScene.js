@@ -1,11 +1,13 @@
-import { Container, Text, Assets, Graphics, TilingSprite } from "pixi.js"
+import { Container, Text, Assets, Graphics } from "pixi.js"
 import { textStyles } from '../engine/fonts'
 import { getAppScreen, sceneAdd } from '../engine/application'
-import { EventHub, events, getBoostButtonClick } from '../engine/events'
-import { CEIL_SIZE, CEIL_HALF_SIZE, GAME_AREA, OFFSETS } from "../constants"
+import { EventHub, events } from '../engine/events'
+import { CEIL_SIZE, CEIL_HALF_SIZE, GAME_AREA, OFFSETS, BOOSTS, BALL,
+    BOOST_PROTECT_TIMEOUT, BOOST_SHOOT_TIMEOUT, BOOST_STOP_TIMEOUT } from "../constants"
 import GameInterface from "./GameInterface"
 import GameArea from "./GameArea"
 import Background from "./Background"
+import { getState } from "../state"
 
 class GameScene extends Container {
     constructor(isLangRu, levelNumber) {
@@ -13,6 +15,7 @@ class GameScene extends Container {
         this.isLangRu = isLangRu
         this.levelNumber = levelNumber
         this.screenData = getAppScreen()
+        this.state = getState()
         
         const loadingText = isLangRu ? 'Загрузка уровня...' : 'Level loading...'
         this.loadingText = new Text({text: loadingText, style: textStyles.levelLoading})
@@ -27,8 +30,7 @@ class GameScene extends Container {
         this.control.eventMode = 'static'
         this.control.on('pointermove', (e) => this.area.platform.move(e) )
 
-        EventHub.on( events.getBoostButtonClick, this.useBoost, this)
-        EventHub.on( events.collectBoost, this.addBoost, this)
+        EventHub.on( events.useBoost, this.useBoost, this)
 
         Assets.load(`./levels/level_${levelNumber}.json`).then( this.setup.bind(this) )
         EventHub.on( events.screenResize, this.screenResize, this)
@@ -58,7 +60,7 @@ class GameScene extends Container {
             const availableWidth = screenData.width - OFFSETS.screen * 2
             const availableHeight = screenData.height - OFFSETS.screen * 2 - OFFSETS.mobControl
             const scaleX = availableWidth / this.areaWidth
-            const scaleY = availableHeight / (this.areaHeight + offsetV) 
+            const scaleY = availableHeight / (this.areaHeight + offsetV)
             let scale = scaleX > scaleY ? scaleY : scaleX
             if (scale > 1) scale = 1
 
@@ -142,29 +144,60 @@ class GameScene extends Container {
         this.addChild(this.control, this.bg, this.area, this.ui)
     }
 
-    useBoost( type ) {
+    useBoost( type ) { console.log('GameScene get event useBoost', type)
         // power, protect, add_platform_size, shuts, slow
-        switch (this.image.texture) {
-            case "power" : this.parent.parent.area.ballPower++; break;
+        switch (type) {
+            case BOOSTS.acceleration:
+                this.area.balls.children.forEach(b => b.accelerate())
+                break
 
-            // positive
-            case "add_ball" : this.parent.parent.addBall(1); break;
-            case "add_platform_size" :  this.platform.resize( true ); break;
-            case "extra_balls" : this.parent.parent.addBall(3); break;
-            
-            case "protection" : this.parent.parent.sidePoints.children.forEach( p => p.protect() ); break;
-            case "shuts" : this.parent.parent.sidePoints.children.forEach( p => p.startShut() ); break;
-            case "slow" : this.parent.parent.balls.children.forEach(b => b.slowdown()); break;
-            // negative
-            case "resize" :  this.platform.resize( false ); break;
-            case "stop" :  this.platform.isActive = false; setTimeout(()=>this.platform.isActive = true,12000); break;
-            case "acceleration" : this.parent.parent.balls.children.forEach(b => b.accelerate()); break;
-            // default : this.parent.sidePoints.children.forEach( p => p.protect() ); break;
+            case BOOSTS.ball:
+                this.ui.addBall()
+                break
+
+            case BOOSTS.power:
+                if (this.area.ballPower < BALL.maxPower) {
+                    this.area.ballPower++
+                    this.ui.addPower(this.area.ballPower)
+                } else {
+                    this.ui.addBoostPower()
+                }
+                break
+
+            case BOOSTS.protect:
+                this.ui.boost_timer.setBoost(BOOSTS.protect, BOOST_PROTECT_TIMEOUT)
+                this.area.sidePoints.children.forEach( side => side.activation(true) )
+                this.area.protect.activate()
+                break
+
+            case BOOSTS.shoot:
+                this.ui.boost_timer.setBoost(BOOSTS.shoot, BOOST_SHOOT_TIMEOUT)
+                this.area.sidePoints.children.forEach( side => side.activation(true) )
+                this.area.guns.activate()
+                break
+
+            case BOOSTS.shrink:
+                this.area.platform.resize(false)
+                break
+
+            case BOOSTS.slow:
+                this.area.balls.children.forEach( ball => ball.slowdown() )
+                break
+
+            case BOOSTS.stop:
+                this.ui.boost_timer.setBoost(BOOSTS.stop, BOOST_STOP_TIMEOUT)
+                this.area.platform.activation(false)
+                break
+
+            case BOOSTS.triple:
+                this.area.addBall(3)
+                break
+
+            case BOOSTS.widens:
+                if (this.area.platform.size < 11) this.area.platform.resize(true)
+                else this.ui.addBoostWidens()
+                break
         }
-    }
-
-    addBoost(type) {
-
     }
 }
 

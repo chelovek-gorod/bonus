@@ -3,6 +3,7 @@ import { tickerAdd, tickerRemove } from "../../engine/application"
 import { sprites } from "../../engine/loader"
 import { CEIL_SIZE, BALL } from "../../constants"
 import { getLinesIntersectionPoint } from "../../engine/functions"
+import { addScore } from "../../engine/events"
 
 class Ball extends Sprite {
     constructor(gameArea) {
@@ -194,13 +195,13 @@ class Ball extends Sprite {
                 const offsetRate = (this.platformOffset / this.platform.halfWidth) * 0.25
                 this.dx += offsetRate
                 this.dy = -Math.sqrt( Math.abs(1 - this.dx * this.dx) )
-                return
+                return addScore(1)
             }
             if (this.collideBrickIndex < -2) {
                 // collide with platform left or right
                 this.dx *= -1
                 this.dy *= -1
-                return
+                return addScore(1)
             }
 
             if (this.collideBrickIndex > -1) {
@@ -219,7 +220,7 @@ class Ball extends Sprite {
     }
 
     accelerate() {
-        this.speed *= BALL.accNegativeBonusRate
+        this.speed *= BALL.accNegativeBoostRate
         if (this.speed > BALL.maxSpeed) {
             this.acc = 1
             this.speed = BALL.maxSpeed
@@ -227,7 +228,8 @@ class Ball extends Sprite {
     }
 
     slowdown() {
-        this.speed = BALL.startSpeed
+        this.speed *= BALL.slowBoostRate
+        if (this.speed < BALL.minSpeed) this.speed = BALL.minSpeed
     }
 }
 

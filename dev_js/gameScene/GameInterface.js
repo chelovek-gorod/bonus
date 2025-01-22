@@ -2,7 +2,7 @@ import { Container, Sprite, Text } from "pixi.js"
 import { textStyles } from '../engine/fonts'
 import { EventHub, events } from '../engine/events'
 import { sprites } from "../engine/loader"
-import { OFFSETS } from "../constants"
+import { OFFSETS, BOOSTS } from "../constants"
 import { getState } from '../state'
 import BoostButton from './UIObjects/BoostButton'
 import BoostTimer from "./UIObjects/BoostTimer"
@@ -25,11 +25,11 @@ class GameInterface extends Container {
         this.addChild(this.boost)
 
         //power, protect, add_platform_size, shuts, slow
-        this.boost_slow = new BoostButton('slow', this.stateData.slow)
-        this.boost_power = new BoostButton('power', this.stateData.power)
-        this.boost_size = new BoostButton('add_platform_size', this.stateData.size)
-        this.boost_guns = new BoostButton('shuts', this.stateData.guns)
-        this.boost_protect = new BoostButton('protect', this.stateData.protect)
+        this.boost_slow = new BoostButton(BOOSTS.slow, this.stateData.slow)
+        this.boost_power = new BoostButton(BOOSTS.power, this.stateData.power)
+        this.boost_size = new BoostButton(BOOSTS.widens, this.stateData.size)
+        this.boost_guns = new BoostButton(BOOSTS.shoot, this.stateData.guns)
+        this.boost_protect = new BoostButton(BOOSTS.protect, this.stateData.protect)
 
         this.boost_timer = new BoostTimer()
 
@@ -79,7 +79,7 @@ class GameInterface extends Container {
 
         tickerAdd(this)
 
-        // EventHub.on( events.screenResize, this.screenResize, this)
+        EventHub.on( events.addScore, this.addScore, this)
     }
 
     setOrientation( isLandscape ) {
@@ -94,6 +94,30 @@ class GameInterface extends Container {
         this.boost_guns.position.set(boostButtonOffset * 3, 0)
         this.boost_protect.position.set(boostButtonOffset * 4, 0)
         this.boost_timer.position.set(boostButtonOffset * 5 + OFFSETS.boostButton * 2, 0)
+    }
+
+    addScore(score) {
+        this.stateData.score += score
+        this.info_score.text = this.stateData.score
+    }
+
+    addBall() {
+        this.stateData.balls++
+        this.info_ball_text.text = 'x' + this.stateData.balls
+    }
+
+    addPower(power) {
+        this.info_power_text.text = 'x' + power
+    }
+
+    addBoostPower() {
+        this.stateData.power++
+        this.boost_power.setCount(this.stateData.power)
+    }
+
+    addBoostWidens() {
+        this.stateData.size++
+        this.boost_size.setCount(this.stateData.size)
     }
 
     tick( time ) {

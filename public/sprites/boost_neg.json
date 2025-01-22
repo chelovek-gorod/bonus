@@ -1,0 +1,85 @@
+{
+  "frames": {
+    "acceleration": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 208,
+        "h": 186
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 208,
+        "h": 186
+      },
+      "sourceSize": {
+        "w": 208,
+        "h": 186
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "shrink": {
+      "frame": {
+        "x": 211,
+        "y": 1,
+        "w": 208,
+        "h": 186
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 208,
+        "h": 186
+      },
+      "sourceSize": {
+        "w": 208,
+        "h": 186
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "stop": {
+      "frame": {
+        "x": 421,
+        "y": 1,
+        "w": 208,
+        "h": 186
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 208,
+        "h": 186
+      },
+      "sourceSize": {
+        "w": 208,
+        "h": 186
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "image": "boost_neg.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 630,
+      "h": 188
+    },
+    "scale": 1
+  }
+}

@@ -1,42 +1,20 @@
-import { AnimatedSprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import { sprites } from "../../engine/loader";
 import Bullet from "./Bullet";
+import { EventHub, events } from "../../engine/events"
 
-class SidePoint extends AnimatedSprite {
+class SidePoint extends Sprite {
     constructor(x, y) {
-        super(sprites.side.animations.open)
+        super(sprites.side.textures.off)
         this.anchor.set(0.5)
-        this.scale.set(0.75)
         this.position.set(x, y)
-        this.loop = false
-        //this.play()
+
+        EventHub.on( events.turnOffProtectBoost, this.activation, this )
+        EventHub.on( events.turnOffShootBoost, this.activation, this )
     }
 
-    protect() {
-        this.play()
-        this.onComplete = () => {
-            this.textures = sprites.side.animations.close
-            
-            if (this.parent.parent.protect.isActive) return
-            this.parent.parent.protect.activate()
-        }
-    }
-
-    startShut() {
-        this.play()
-        this.onComplete = () => {
-            this.textures = sprites.side.animations.close
-            
-            if (this.parent.parent.guns.isActive) return
-            this.parent.parent.guns.activate()
-        }
-    }
-
-    close() {
-        this.play()
-        this.onComplete = () => {
-            this.textures = sprites.side.animations.open
-        }
+    activation( isActive = false ) { console.log(isActive)
+        this.texture = sprites.side.textures[ isActive ? 'on' : 'off' ]
     }
 
     shut(x) {

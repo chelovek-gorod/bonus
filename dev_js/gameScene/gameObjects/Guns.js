@@ -1,22 +1,20 @@
-import { CEIL_HALF_SIZE, BONUS_TIMEOUT, SHUT_TIMEOUT } from "../../constants"
+import { CEIL_HALF_SIZE, SHUT_TIMEOUT } from "../../constants"
+import { EventHub, events } from "../../engine/events"
 
 class Guns {
     constructor(parent) {
         this.parent = parent
         this.shutInterval = null
 
-        this.isActive = false
+        EventHub.on( events.turnOffShootBoost, this.deactivate, this )
     }
 
     activate() {
-        setTimeout(() => this.deactivate(), BONUS_TIMEOUT)
-        setInterval(() => this.shut(), SHUT_TIMEOUT)
+        this.shutInterval = setInterval(() => this.shut(), SHUT_TIMEOUT)
     }
 
     deactivate() {
-        this.isActive = false
         clearInterval(this.shutInterval)
-        this.parent.sidePoints.children.forEach( p => p.close() )
     }
 
     shut() {

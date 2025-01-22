@@ -1,5 +1,6 @@
 import { Graphics } from "pixi.js";
-import { BONUS_TIMEOUT, PROTECTOR } from "../../constants"
+import { PROTECTOR } from "../../constants"
+import { EventHub, events } from '../../engine/events'
 
 class Protect extends Graphics {
     constructor(left, right) {
@@ -11,11 +12,10 @@ class Protect extends Graphics {
         this.leftPoint = {x: left.x, y: left.y}
         this.rightPoint = {x: right.x, y: right.y}
 
-        this.isActive = false
+        EventHub.on( events.turnOffProtectBoost, this.clear, this )
     }
 
     activate() {
-        this.isActive = true
         this.roundRect(
             this.leftPoint.x - this.radius,
             this.leftPoint.y - this.radius,
@@ -24,14 +24,6 @@ class Protect extends Graphics {
             this.halfWidth
         )
         this.fill(this.color)
-
-        setTimeout(() => this.deactivate(), BONUS_TIMEOUT)
-    }
-
-    deactivate() {
-        this.isActive = false
-        this.clear()
-        this.parent.sidePoints.children.forEach( p => p.close() )
     }
 }
 
