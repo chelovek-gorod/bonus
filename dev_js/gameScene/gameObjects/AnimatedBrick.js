@@ -47,7 +47,8 @@ class AnimatedBrick extends AnimatedSprite {
                 new Bonus(this.position.x, this.position.y, type, this.parent.parent.platform)
             )
         }
-        addScore(5)
+        addScore({score: 5, x: this.position.x, y: this.position.y})
+        this.parent.parent.availableBrickCounter--
         this.parent.removeChild(this)
         this.destroy()
     }

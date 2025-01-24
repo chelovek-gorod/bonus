@@ -7,16 +7,17 @@ import { getState } from '../state'
 import BoostButton from './UIObjects/BoostButton'
 import BoostTimer from "./UIObjects/BoostTimer"
 import { tickerAdd, tickerRemove } from "../engine/application"
+import FlyingText from "./UIObjects/FlyingText"
 
 class GameInterface extends Container {
-    constructor(isLangRu, levelNumber, starsTimeoutList) {
+    constructor(isLangRu, levelNumber, areaData) {
         super()
 
         this.stateData = getState()
 
         this.isLangRu = isLangRu
         this.levelNumber = levelNumber
-        this.starsTimeoutList = starsTimeoutList
+        this.starsTimeoutList = areaData.starsTimeoutList
         this.starsTimeout = this.starsTimeoutList.pop()
         this.starTime = 1000
         this.stars = 3
@@ -25,11 +26,11 @@ class GameInterface extends Container {
         this.addChild(this.boost)
 
         //power, protect, add_platform_size, shuts, slow
-        this.boost_slow = new BoostButton(BOOSTS.slow, this.stateData.slow)
-        this.boost_power = new BoostButton(BOOSTS.power, this.stateData.power)
-        this.boost_size = new BoostButton(BOOSTS.widens, this.stateData.size)
-        this.boost_guns = new BoostButton(BOOSTS.shoot, this.stateData.guns)
-        this.boost_protect = new BoostButton(BOOSTS.protect, this.stateData.protect)
+        this.boost_slow = new BoostButton(BOOSTS.slow, this.stateData, areaData)
+        this.boost_power = new BoostButton(BOOSTS.power, this.stateData, areaData)
+        this.boost_size = new BoostButton(BOOSTS.widens, this.stateData, areaData)
+        this.boost_guns = new BoostButton(BOOSTS.shoot, this.stateData)
+        this.boost_protect = new BoostButton(BOOSTS.protect, this.stateData)
 
         this.boost_timer = new BoostTimer()
 
@@ -75,7 +76,22 @@ class GameInterface extends Container {
 
         this.info_menu_image = new Sprite(sprites.menu_button)
         this.info_menu_image.anchor.set(1, 0)
-        this.info.addChild(this.info_menu_image)
+        const menuText = isLangRu
+        ? '[Esc] - Выход в меню \n'
+        + '[A] - замедление \n'
+        + '[S] - усиление     \n'
+        + '[D] - расширение\n'
+        + '[W] - стрельба       \n'
+        + '[E] - защита         '
+
+        : '[Esc] - Game menu  \n'
+        + '[A] - slow down\n'
+        + '[S] - power up  \n'
+        + '[D] - add width \n'
+        + '[W] - shoot          \n'
+        + '[E] - protection'
+        this.info_menu_text = new Text({text: menuText, style: textStyles.gameMenu})
+        this.info_menu_text.anchor.set(0.5, 0)
 
         tickerAdd(this)
 
@@ -87,18 +103,38 @@ class GameInterface extends Container {
 
         this.isLandscape = isLandscape
 
-        const boostButtonOffset = OFFSETS.boostButton + OFFSETS.boostButtonSize
-        this.boost_slow.position.set(0, 0)
-        this.boost_power.position.set(boostButtonOffset, 0)
-        this.boost_size.position.set(boostButtonOffset * 2, 0)
-        this.boost_guns.position.set(boostButtonOffset * 3, 0)
-        this.boost_protect.position.set(boostButtonOffset * 4, 0)
-        this.boost_timer.position.set(boostButtonOffset * 5 + OFFSETS.boostButton * 2, 0)
+        if (isLandscape) {
+            this.info.removeChild(this.info_menu_image)
+            this.info.addChild(this.info_menu_text)
+
+            const boostButtonOffset = OFFSETS.boostButton + OFFSETS.boostButtonSize
+
+            this.boost_slow.position.set(0, -OFFSETS.boostButtonSize)
+            this.boost_power.position.set(boostButtonOffset, -OFFSETS.boostButtonSize)
+            this.boost_size.position.set(boostButtonOffset * 2, -OFFSETS.boostButtonSize)
+
+            const point_y1 = -OFFSETS.boostButtonSize - boostButtonOffset
+            this.boost_guns.position.set(boostButtonOffset * 0.5, point_y1)
+            this.boost_protect.position.set(boostButtonOffset * 1.5, point_y1)
+            this.boost_timer.position.set(boostButtonOffset, point_y1 - boostButtonOffset)
+        } else {
+            this.info.addChild(this.info_menu_image)
+            this.info.removeChild(this.info_menu_text)
+            const boostButtonOffset = OFFSETS.boostButton + OFFSETS.boostButtonSize
+            this.boost_slow.position.set(0, 0)
+            this.boost_power.position.set(boostButtonOffset, 0)
+            this.boost_size.position.set(boostButtonOffset * 2, 0)
+            this.boost_guns.position.set(boostButtonOffset * 3, 0)
+            this.boost_protect.position.set(boostButtonOffset * 4, 0)
+            this.boost_timer.position.set(boostButtonOffset * 5 + OFFSETS.boostButton * 2, 0)
+        }
     }
 
-    addScore(score) {
-        this.stateData.score += score
+    addScore(scoreData) {
+        this.stateData.score += scoreData.score
         this.info_score.text = this.stateData.score
+
+        this.parent.area.addChild( new FlyingText(scoreData.x, scoreData.y, scoreData.score) )
     }
 
     addBall() {
@@ -110,14 +146,12 @@ class GameInterface extends Container {
         this.info_power_text.text = 'x' + power
     }
 
-    addBoostPower() {
-        this.stateData.power++
-        this.boost_power.setCount(this.stateData.power)
-    }
+    getBall() {
+        if (this.stateData.balls < 1) return false
 
-    addBoostWidens() {
-        this.stateData.size++
-        this.boost_size.setCount(this.stateData.size)
+        this.stateData.balls--
+        this.info_ball_text.text = 'x' + this.stateData.balls
+        return true
     }
 
     tick( time ) {
@@ -139,6 +173,10 @@ class GameInterface extends Container {
             this.info.removeChild(this.info_stars_text)
             tickerRemove(this)
         }
+    }
+
+    stopTimer() {
+        tickerRemove(this)
     }
 }
 

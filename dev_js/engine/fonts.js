@@ -64,6 +64,12 @@ export function initFontStyles() {
             fill: '#ffffff',
             align: 'right',
         }),
+        gameMenu: new TextStyle({
+            fontFamily: fonts.normal,
+            fontSize: 48,
+            fill: '#ffffff',
+            align: 'center',
+        }),
         
         boostCounter: new TextStyle({
             fontFamily: fonts.bold,
@@ -79,65 +85,11 @@ export function initFontStyles() {
             align: 'center',
         }),
 
-        infoPrice: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 20,
-            fill: '#ffffff',
+        fly: new TextStyle({
+            fontFamily: fonts.bold,
+            fontSize: 48,
+            fill: '#00ff00',
             align: 'center',
-        }),
-
-        message: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 36,
-            fill: '#ff0000',
-            align: 'center',
-
-            dropShadow: true,
-            dropShadowColor: '#000000',
-            dropShadowBlur: 6,
-            dropShadowAngle: 0,
-            dropShadowDistance: 0,
-        }),
-
-        mobileMessage: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 32,
-            fill: '#ff0000',
-            align: 'center',
-
-            dropShadow: true,
-            dropShadowColor: '#000000',
-            dropShadowBlur: 4,
-            dropShadowAngle: 0,
-            dropShadowDistance: 0,
-        }),
-
-        adResultMessage: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 24,
-            fill: '#000000',
-            align: 'center',
-
-            dropShadow: true,
-            dropShadowColor: '#00ff00',
-            dropShadowBlur: 6,
-            dropShadowAngle: 0,
-            dropShadowDistance: 0,
-
-            wordWrap: true,
-            wordWrapWidth: 300,
-        }),
-        adResultButton: new TextStyle({
-            fontFamily: fonts.normal,
-            fontSize: 24,
-            fill: '#ffffff',
-            align: 'center',
-
-            dropShadow: true,
-            dropShadowColor: '#000000',
-            dropShadowBlur: 6,
-            dropShadowAngle: 0,
-            dropShadowDistance: 0,
         }),
 
         // EXAMPLES

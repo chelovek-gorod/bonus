@@ -1,7 +1,7 @@
 import { Sprite } from "pixi.js"
 import { sprites } from "../../engine/loader"
 import { CEIL_SIZE, CEIL_HALF_SIZE, BALL_RADIUS } from "../../constants"
-import { addScore } from "../../engine/events"
+import { addScore, checkLevelClear } from "../../engine/events"
 
 class Brick extends Sprite {
     constructor(x, y, type) {
@@ -28,11 +28,12 @@ class Brick extends Sprite {
     getHit(power = null) {
         if (!isFinite(this.hp)) return
 
-        addScore(5)
+        addScore({score: 5, x: this.position.x, y: this.position.y})
 
         if (!this.isVisible) {
             this.isVisible = true
             this.texture = sprites.bricks.textures['t']
+            this.parent.parent.availableBrickCounter++
             return
         }
 
@@ -43,7 +44,9 @@ class Brick extends Sprite {
     }
 
     broke() {
+        this.parent.parent.availableBrickCounter--
         this.parent.removeChild(this)
+        checkLevelClear()
         this.destroy()
     }
 }

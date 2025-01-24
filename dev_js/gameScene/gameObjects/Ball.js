@@ -1,15 +1,15 @@
 import { Sprite } from "pixi.js"
 import { tickerAdd, tickerRemove } from "../../engine/application"
 import { sprites } from "../../engine/loader"
-import { CEIL_SIZE, BALL } from "../../constants"
+import { BALL } from "../../constants"
 import { getLinesIntersectionPoint } from "../../engine/functions"
-import { addScore } from "../../engine/events"
+import { addScore, loseBall } from "../../engine/events"
 
 class Ball extends Sprite {
     constructor(gameArea) {
         super(sprites.ball)
         this.anchor.set(0.5)
-        this.position.set(gameArea.platform.position.x, gameArea.platform.position.y + CEIL_SIZE)
+        this.position.set(gameArea.platform.position.x, gameArea.platform.position.y - BALL.radius)
 
         this.minX = BALL.radius
         this.minY = BALL.radius
@@ -24,8 +24,8 @@ class Ball extends Sprite {
 
         // rotation is in radians, angle is in degrees
         // 0 - to Right side, -90 to Top
-        //this.direction = -Math.PI * 0.75 + Math.random() * Math.PI * 0.5
-        this.direction = -Math.PI * 0.5
+        this.direction = -Math.PI * 0.75 + Math.random() * Math.PI * 0.5
+        // this.direction = -Math.PI * 0.5
         this.dx = Math.cos(this.direction)
         this.dy = Math.sin(this.direction)
 
@@ -91,7 +91,7 @@ class Ball extends Sprite {
                 this.x, this.y, destinationX, destinationY,
                 this.minX, this.maxY, this.maxX, this.maxY
             )
-            if (intersectPoint) this.setCollideData(intersectPoint, 0, -1, brickIndex) 
+            if (intersectPoint) this.setCollideData(intersectPoint, 0, -1, -5) // out
         } else {
             intersectPoint = getLinesIntersectionPoint(
                 this.x, this.y, destinationX, destinationY,
@@ -180,6 +180,18 @@ class Ball extends Sprite {
             this.x = destinationX
             this.y = destinationY
         } else {
+            // OUT
+            if (this.collideBrickIndex === -5) {
+                if (this.parent.parent.protect.isActive) {
+                    this.collideBrickIndex = -1
+                } else {
+                    loseBall()
+                    tickerRemove(this)
+                    this.parent.removeChild(this)
+                    return this.destroy()
+                }
+            }
+
             this.speed *= this.acc
             if (this.speed > BALL.maxSpeed) {
                 this.acc = 1
@@ -195,13 +207,13 @@ class Ball extends Sprite {
                 const offsetRate = (this.platformOffset / this.platform.halfWidth) * 0.25
                 this.dx += offsetRate
                 this.dy = -Math.sqrt( Math.abs(1 - this.dx * this.dx) )
-                return addScore(1)
+                return addScore({score: Math.ceil(this.speed * 2), x: this.position.x, y: this.position.y})
             }
             if (this.collideBrickIndex < -2) {
                 // collide with platform left or right
                 this.dx *= -1
                 this.dy *= -1
-                return addScore(1)
+                return addScore({score: Math.ceil(this.speed * 2), x: this.position.x, y: this.position.y})
             }
 
             if (this.collideBrickIndex > -1) {

@@ -2,7 +2,7 @@ import { Sprite } from "pixi.js"
 import { sprites } from "../../engine/loader"
 import { BOOST, BOOSTS, BOOST_RADIUS } from "../../constants"
 import { tickerAdd, tickerRemove } from "../../engine/application"
-import { useBoost, addScore } from '../../engine/events'
+import { useBoost, addScore, checkLevelClear } from '../../engine/events'
 
 class Bonus extends Sprite {
     constructor(x, y, type, platform, isCollected = false) {
@@ -59,7 +59,7 @@ class Bonus extends Sprite {
         && this.position.x < this.platform.bonusRight
         && this.position.y > this.platform.bonusTop) {
             useBoost(this.type)
-            addScore(10)
+            addScore({score: 10, x: this.position.x, y: this.position.y})
             this.isCollected = true
             this.scale.x = 1
         }
@@ -68,6 +68,7 @@ class Bonus extends Sprite {
     kill() {
         tickerRemove(this)
         this.parent.removeChild(this)
+        checkLevelClear()
         this.destroy()
     }
 }

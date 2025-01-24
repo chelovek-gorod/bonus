@@ -10,6 +10,7 @@ class Guns {
     }
 
     activate() {
+        clearInterval(this.shutInterval)
         this.shutInterval = setInterval(() => this.shut(), SHUT_TIMEOUT)
     }
 

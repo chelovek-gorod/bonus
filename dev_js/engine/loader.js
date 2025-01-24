@@ -10,28 +10,7 @@ const paths = {
 }
 
 export const sprites = {
-    bg_0: 'bg_0.png',
     bg_1: 'bg_1.png',
-    bg_2: 'bg_2.png',
-    bg_3: 'bg_3.png',
-    bg_4: 'bg_4.png',
-    bg_5: 'bg_5.png',
-    bg_6: 'bg_6.png',
-    bg_7: 'bg_7.png',
-    bg_8: 'bg_8.png',
-    bg_9: 'bg_9.png',
-    bg_10: 'bg_10.png',
-    bg_11: 'bg_11.png',
-    bg_12: 'bg_12.png',
-    bg_13: 'bg_13.png',
-    bg_14: 'bg_14.png',
-    bg_15: 'bg_15.png',
-    bg_16: 'bg_16.png',
-    bg_17: 'bg_17.png',
-    bg_18: 'bg_18.png',
-    bg_19: 'bg_19.png',
-    bg_20: 'bg_20.png',
-    bg_21: 'bg_21.png',
 
     ball: 'ball_48x48px.png',
     bullet: 'bullet_16x16px.png',

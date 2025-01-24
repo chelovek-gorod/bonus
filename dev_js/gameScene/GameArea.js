@@ -43,6 +43,7 @@ class GameArea extends Container {
         this.bottom = height - BALL_RADIUS
 
         this.starsTimeoutList = [0, 0]
+        this.availableBrickCounter = 0
 
         map.forEach( (line, y) => {
             for(let i = 0; i < line.length; i++) {
@@ -53,12 +54,19 @@ class GameArea extends Container {
                     const char = line[i + 1]
                     if (char === '?' || char === '!') {
                         this.bricks.addChild( new AnimatedBrick(cx, cy, char) )
-                        this.starsTimeoutList[1] -= 5
+                        this.starsTimeoutList[0] -= 5
+                        this.availableBrickCounter++
                     } else {
                         this.bricks.addChild( new Brick(cx, cy, char) )
-                        if (char === 'x') this.starsTimeoutList[1] += 5
-                        else if (char === '0') this.starsTimeoutList[1] += 2
-                        else this.starsTimeoutList[1] += +char
+                        if (char === 'x') {
+                            this.starsTimeoutList[0] += 5
+                        } else
+                        if (char === '0') {
+                            this.starsTimeoutList[0] += 2
+                        } else {
+                            this.starsTimeoutList[0] += +char
+                            this.availableBrickCounter++
+                        }
                     }
                 }
 
@@ -85,13 +93,13 @@ class GameArea extends Container {
             this.platform, this.balls, this.bonuses, this.border
         )
 
-        if (this.starsTimeoutList[1] < this.bricks.children.length) {
-            this.starsTimeoutList[1] = this.bricks.children.length
+        if (this.starsTimeoutList[0] < this.bricks.children.length) {
+            this.starsTimeoutList[0] = this.bricks.children.length
         }
-        this.starsTimeoutList[0] = Math.round(this.starsTimeoutList[1] * 0.5)
+        this.starsTimeoutList[0] = Math.round(this.starsTimeoutList[0] * 0.75)
+        this.starsTimeoutList[1] = this.starsTimeoutList[0] * 2
 
         this.platform.isActive = true
-        setTimeout( () => this.addBall(), 3 )
     }
 
     addBall( count = 1 ) {

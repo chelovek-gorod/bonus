@@ -14,8 +14,8 @@ class State {
 
         this.slow = save ? save.slow : START_STATE.slow
         this.power = save ? save.power : START_STATE.power
-        this.size = save ? save.size : START_STATE.size
-        this.guns = save ? save.guns : START_STATE.guns
+        this.widens = save ? save.widens : START_STATE.widens
+        this.shoot = save ? save.shoot : START_STATE.shoot
         this.protect = save ? save.protect : START_STATE.protect
     }
 }

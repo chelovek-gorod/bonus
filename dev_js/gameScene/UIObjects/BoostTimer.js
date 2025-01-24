@@ -3,7 +3,7 @@ import { sprites } from "../../engine/loader"
 import { textStyles } from '../../engine/fonts'
 import { tickerAdd, tickerRemove } from "../../engine/application"
 import { BOOSTS } from "../../constants"
-import { turnOffStopBoost, turnOffProtectBoost, turnOffShootBoost } from "../../engine/events"
+import { turnOffStopBoost, turnOffProtectBoost, turnOffShootBoost, sidePointBlink } from "../../engine/events"
 
 class BoostTimer extends Container {
     constructor() {
@@ -44,7 +44,10 @@ class BoostTimer extends Container {
                 if (this.type === BOOSTS.shoot) turnOffShootBoost()
                 if (this.type === BOOSTS.stop) turnOffStopBoost()
             }
-        } else this.time = timeout
+        } else {
+            this.time = timeout
+            tickerAdd(this)
+        }
 
         this.type = type
         this.image.texture = sprites.boost_ui_timer.textures[type]
@@ -52,7 +55,6 @@ class BoostTimer extends Container {
         this.updateTameValue = this.time - 100
         this.timeText.text = (this.time / 1000).toFixed(1)
         this.addChild(this.timeText)
-        tickerAdd(this)
     }
 
     tick(time) {
@@ -62,6 +64,7 @@ class BoostTimer extends Container {
         if (this.time <= this.updateTameValue) {
             this.updateTameValue - 100
             this.timeText.text = (this.time / 1000).toFixed(1)
+            if (this.time < 1000) sidePointBlink()
         }
     }
 }
